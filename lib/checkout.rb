@@ -34,26 +34,25 @@ class Checkout
   end
 
   def two_for_one(item, count, apply_once)
-    if count >= 2
-      count = 2 if apply_once
-      prices.fetch(item) * (count / 2)
+    x_for_x({item: item, count: count, apply_once: apply_once, threshold: 2})
+  end
+
+  def four_for_three(item, count, apply_once)
+    x_for_x({item: item, count: count, apply_once: apply_once, threshold: 4})
+  end
+
+  def x_for_x(args)
+    if args[:count] >= args[:threshold]
+      args[:count] = args[:threshold] if args[:apply_once]
+      prices.fetch(args[:item]) * (args[:count] / args[:threshold])
     else
       0
-    end 
+    end
   end
 
   def half_price(item, count, apply_once)
     count = 1 if apply_once
     (prices.fetch(item) * count) / 2
-  end
-
-  def four_for_three(item, count, apply_once)
-    if count >= 4
-      count = 4 if apply_once
-      prices.fetch(item) * (count / 4)
-    else
-      0
-    end
   end
 
   def basket
