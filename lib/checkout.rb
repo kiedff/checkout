@@ -47,6 +47,15 @@ class Checkout
     (prices.fetch(item) * count) / 2
   end
 
+  def four_for_three(item, count, apply_once)
+    if count >= 4
+      count = 4 if apply_once
+      prices.fetch(item) * (count / 4)
+    else
+      0
+    end
+  end
+
   def basket
     @basket ||= Array.new
   end
