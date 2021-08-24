@@ -1,4 +1,6 @@
 class Checkout
+  require_relative 'discount'
+
   attr_reader :prices
   private :prices
 
