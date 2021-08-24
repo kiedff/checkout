@@ -30,15 +30,21 @@ class Checkout
   def calculate_discount(item, count)
     discount = Discount.all[item]
     return 0 unless discount
-    send(discount[:promotion], item, count) if respond_to? discount[:promotion], true
+    send(discount[:promotion], item, count, discount[:one_per_customer]) if respond_to? discount[:promotion], true
   end
 
-  def two_for_one(item, count)
+  def two_for_one(item, count, apply_once)
     if count >= 2
-      return prices.fetch(item) * (count / 2)
+      count = 2 if apply_once
+      prices.fetch(item) * (count / 2)
     else
       0
     end 
+  end
+
+  def half_price(item, count, apply_once)
+    count = 1 if apply_once
+    (prices.fetch(item) * count) / 2
   end
 
   def basket
